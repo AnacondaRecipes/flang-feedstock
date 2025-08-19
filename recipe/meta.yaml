@@ -93,8 +93,13 @@ outputs:
 about:
   home: https://flang.llvm.org
   license: Apache-2.0
+  license_family: Apache
   license_file: flang/LICENSE.TXT
+  doc_url: https://flang.llvm.org/docs/
   summary: Flang is a Fortran compiler targeting LLVM.
+  description: |
+    Flang is a Fortran compiler targeting LLVM. It is designed to integrate 
+    with the LLVM ecosystem and provides a modern Fortran compiler implementation.
   dev_url: https://github.com/llvm/llvm-project
 
 extra:
