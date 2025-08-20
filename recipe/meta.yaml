@@ -28,6 +28,7 @@ requirements:
     - lit =={{ version }}
     - llvmdev =={{ version }}
     - mlir =={{ version }}
+    - libmlir =={{ version }}
     - zlib
 
 outputs:
@@ -45,6 +46,7 @@ outputs:
         - compiler-rt =={{ version }}
         - llvmdev =={{ version }}
         - mlir =={{ version }}
+        - libmlir =={{ version }}
     test:
       commands:
         # shared lib on linux
@@ -72,6 +74,7 @@ outputs:
         - llvmdev =={{ version }}
         - mlir =={{ version }}
         # for required run-exports
+        - libmlir =={{ version }}
         - llvm =={{ version }}
         - libclang-cpp =={{ version }}
         # ninja really wants to find z.lib on win
