@@ -10,8 +10,8 @@ source:
 
 build:
   number: 0
-  # intentionally only windows (main target) & linux (debuggability)
-  skip: true  # [osx]
+  # intentionally only windows
+  skip: true  # [not win]
 
 requirements:
   build:
@@ -103,6 +103,8 @@ about:
   dev_url: https://github.com/llvm/llvm-project
 
 extra:
+  skip-lints:
+    - should_use_compilers
   recipe-maintainers:
     - isuruf
     - h-vetinari
