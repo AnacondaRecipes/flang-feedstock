@@ -16,7 +16,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ stdlib('c') }}
+#    - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
     - cmake
     # some bug with misinterpreting `...\tools` as a tab (`\t`)
@@ -40,7 +40,7 @@ outputs:
       build:
         # for strong run-exports
         - {{ compiler('c') }}
-        - {{ stdlib('c') }}
+#        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
       host:
         - clangdev =={{ version }}
@@ -66,7 +66,7 @@ outputs:
         - ninja <1.13
         # for strong run-exports
         - {{ compiler('c') }}
-        - {{ stdlib('c') }}
+#        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
       host:
         - clangdev =={{ version }}
@@ -81,7 +81,7 @@ outputs:
         - zstd  # [win]
         - {{ pin_subpackage('libflang', exact=True) }}
       run:
-        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
+#        - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
         - clang =={{ version }}
         - compiler-rt =={{ version }}   # [win]
         - {{ pin_subpackage('libflang', exact=True) }}
@@ -96,8 +96,14 @@ about:
   license_file: flang/LICENSE.TXT
   summary: Flang is a Fortran compiler targeting LLVM.
   dev_url: https://github.com/llvm/llvm-project
+  doc_url: https://github.com/llvm/llvm-project/blob/main/README.md
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/56871
+    reason: Client request
+  recipe-maintainers:
+    - ianaobi
   recipe-maintainers:
     - isuruf
     - h-vetinari
