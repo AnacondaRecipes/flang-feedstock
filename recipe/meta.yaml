@@ -10,6 +10,8 @@ source:
 
 build:
   number: 0
+  # TODO: Skipping osx until https://github.com/llvm/llvm-project/issues/154960 is resolved.
+  skip: true  # [osx]
 
 requirements:
   build:
