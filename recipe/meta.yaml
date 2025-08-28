@@ -10,7 +10,7 @@ source:
 
 build:
   number: 0
-  # intentionally only windows (main target) & linux (debuggability)
+  # TODO: Skipping osx until https://github.com/llvm/llvm-project/issues/154960 is resolved.
   skip: true  # [osx]
 
 requirements:
@@ -30,6 +30,7 @@ requirements:
     - lit =={{ version }}
     - llvmdev =={{ version }}
     - mlir =={{ version }}
+    - libmlir =={{ version }}
     - zlib
 
 outputs:
@@ -47,6 +48,7 @@ outputs:
         - compiler-rt =={{ version }}
         - llvmdev =={{ version }}
         - mlir =={{ version }}
+        - libmlir =={{ version }}
     test:
       commands:
         # shared lib on linux
@@ -74,6 +76,7 @@ outputs:
         - llvmdev =={{ version }}
         - mlir =={{ version }}
         # for required run-exports
+        - libmlir =={{ version }}
         - llvm =={{ version }}
         - libclang-cpp =={{ version }}
         # ninja really wants to find z.lib on win
@@ -93,11 +96,18 @@ outputs:
 about:
   home: https://flang.llvm.org
   license: Apache-2.0
+  license_family: Apache
   license_file: flang/LICENSE.TXT
+  doc_url: https://flang.llvm.org/docs/
   summary: Flang is a Fortran compiler targeting LLVM.
+  description: |
+    Flang is a Fortran compiler targeting LLVM. It is designed to integrate 
+    with the LLVM ecosystem and provides a modern Fortran compiler implementation.
   dev_url: https://github.com/llvm/llvm-project
 
 extra:
+  skip-lints:
+    - should_use_compilers
   recipe-maintainers:
     - isuruf
     - h-vetinari
