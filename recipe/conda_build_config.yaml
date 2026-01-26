@@ -7,6 +7,6 @@ c_stdlib_version:  # [win]
   - 2022.14        # [win]
 
 c_compiler_version:   # [osx]
-  - 20.1.8            # [osx]
+  - 21.1.8            # [osx]
 cxx_compiler_version: # [osx]
-  - 20.1.8            # [osx]
+  - 21.1.8            # [osx]
