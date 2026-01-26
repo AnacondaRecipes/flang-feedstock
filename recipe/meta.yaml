@@ -20,7 +20,7 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     # some bug with misinterpreting `...\tools` as a tab (`\t`)
-    - ninja <1.13
+    - ninja
     - mlir =={{ version }}     # [build_platform != target_platform]
   host:
     - clangdev =={{ version }}
@@ -63,7 +63,7 @@ outputs:
     requirements:
       build:
         - cmake
-        - ninja <1.13
+        - ninja
         # for strong run-exports
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
