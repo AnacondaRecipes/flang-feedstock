@@ -59,6 +59,7 @@ outputs:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
         - clang =={{ version }}
         - compiler-rt =={{ version }}   # [win]
+        - libmlir =={{ version }}       # [linux]
     test:
       commands:
         - test -f $PREFIX/bin/flang                     # [linux]
