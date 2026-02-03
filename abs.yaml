@@ -1,0 +1,9 @@
+build_parameters:
+  - "--suppress-variables"
+  - "--error-overlinking"
+
+# Extend timeout to 4 hours for Windows builds
+task_timeout: 14400
+
+# Upload to staging so openmp can use flang before main release
+staging_channel_upload_target: llvm-21.1.8-stage2-build-0
