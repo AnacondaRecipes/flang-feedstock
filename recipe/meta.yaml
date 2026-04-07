@@ -1,4 +1,4 @@
-{% set version = "21.1.8" %}
+{% set version = "22.1.2" %}
 
 package:
   name: flang-split
@@ -6,11 +6,13 @@ package:
 
 source:
   url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-  sha256: 7ba3f2a8d8fda88be18a31d011e8195d3b7f87f9fa92b20c94cba2d7f65b0e3f
+  sha256: a252efd7a4a268d2cc5145b17adcaa82757fdee1d06d748b4c24137807710ecb
 
 build:
   number: 0
-  # TODO: Skipping osx until https://github.com/llvm/llvm-project/issues/154960 is resolved.
+  # Skipping osx: upstream llvm/llvm-project#154960 ("a dialect with
+  # namespace 'arith' has already been registered") is still OPEN as of
+  # LLVM 22.1.2 (verified 2026-04-07). Re-enable once upstream fixes it.
   skip: true  # [osx]
 
 requirements:
@@ -59,7 +61,7 @@ outputs:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
         - clang =={{ version }}
         - compiler-rt =={{ version }}   # [win]
-        - libmlir21 =={{ version }}      # [linux]
+        - libmlir22 =={{ version }}      # [linux]
     test:
       commands:
         - test -f $PREFIX/bin/flang                     # [linux]
