@@ -6,6 +6,3 @@ upstream_sources:
       include_regex: ^llvmorg-\d+\.\d+\.\d+$
       from_pattern: ^llvmorg-(.+)$
       to_pattern: \1
-    packages:
-      - flang
-      - libflang
