@@ -29,7 +29,7 @@ requirements:
     - lit =={{ version }}
     - llvmdev =={{ version }}
     - mlir =={{ version }}
-    - zlib
+    - zlib {{ zlib }}
 
 outputs:
   - name: flang
@@ -52,8 +52,8 @@ outputs:
         - llvm =={{ version }}
         - libclang-cpp =={{ version }}
         # ninja really wants to find z.lib on win
-        - zlib  # [win]
-        - zstd  # [win]
+        - zlib {{ zlib }}  # [win]
+        - zstd {{ zstd }}  # [win]
       run:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
         - clang =={{ version }}
