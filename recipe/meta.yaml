@@ -9,7 +9,7 @@ source:
   sha256: a252efd7a4a268d2cc5145b17adcaa82757fdee1d06d748b4c24137807710ecb
 
 build:
-  number: 0
+  number: 1
   # Skipping osx: upstream llvm/llvm-project#154960 ("a dialect with
   # namespace 'arith' has already been registered") is still OPEN as of
   # LLVM 22.1.2 (verified 2026-04-07). Re-enable once upstream fixes it.
@@ -21,18 +21,15 @@ requirements:
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    # some bug with misinterpreting `...\tools` as a tab (`\t`)
-    - ninja <1.13
+    - ninja-base
     - mlir =={{ version }}     # [build_platform != target_platform]
-    # for showing CPU info of CI agent
-    - numpy *
   host:
     - clangdev =={{ version }}
     - compiler-rt =={{ version }}
     - lit =={{ version }}
     - llvmdev =={{ version }}
     - mlir =={{ version }}
-    - zlib
+    - zlib {{ zlib }}
 
 outputs:
   - name: flang
@@ -41,7 +38,7 @@ outputs:
     requirements:
       build:
         - cmake
-        - ninja <1.13
+        - ninja-base
         # for strong run-exports
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
@@ -55,8 +52,8 @@ outputs:
         - llvm =={{ version }}
         - libclang-cpp =={{ version }}
         # ninja really wants to find z.lib on win
-        - zlib  # [win]
-        - zstd  # [win]
+        - zlib {{ zlib }}  # [win]
+        - zstd {{ zstd }}  # [win]
       run:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
         - clang =={{ version }}
