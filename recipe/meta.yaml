@@ -38,7 +38,7 @@ outputs:
     requirements:
       build:
         - cmake
-        - ninja
+        - ninja-base
         # for strong run-exports
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
