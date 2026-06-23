@@ -1,4 +1,4 @@
-{% set version = "20.1.8" %}
+{% set version = "22.1.2" %}
 
 package:
   name: flang-split
@@ -6,11 +6,13 @@ package:
 
 source:
   url: https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-{{ version.replace(".rc", "-rc") }}.tar.gz
-  sha256: a6cbad9b2243b17e87795817cfff2107d113543a12486586f8a055a2bb044963
+  sha256: a252efd7a4a268d2cc5145b17adcaa82757fdee1d06d748b4c24137807710ecb
 
 build:
-  number: 0
-  # TODO: Skipping osx until https://github.com/llvm/llvm-project/issues/154960 is resolved.
+  number: 1
+  # Skipping osx: upstream llvm/llvm-project#154960 ("a dialect with
+  # namespace 'arith' has already been registered") is still OPEN as of
+  # LLVM 22.1.2 (verified 2026-04-07). Re-enable once upstream fixes it.
   skip: true  # [osx]
 
 requirements:
@@ -19,8 +21,7 @@ requirements:
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    # some bug with misinterpreting `...\tools` as a tab (`\t`)
-    - ninja
+    - ninja-base
     - mlir =={{ version }}     # [build_platform != target_platform]
   host:
     - clangdev =={{ version }}
@@ -28,38 +29,12 @@ requirements:
     - lit =={{ version }}
     - llvmdev =={{ version }}
     - mlir =={{ version }}
-    - libmlir =={{ version }}
     - zlib
 
 outputs:
-  - name: libflang
-    script: install_libflang.sh  # [unix]
-    script: install_libflang.bat  # [win]
-    requirements:
-      build:
-        # for strong run-exports
-        - {{ compiler('c') }}
-        - {{ stdlib('c') }}
-        - {{ compiler('cxx') }}
-      host:
-        - clangdev =={{ version }}
-        - compiler-rt =={{ version }}
-        - llvmdev =={{ version }}
-        - mlir =={{ version }}
-        - libmlir =={{ version }}
-    test:
-      commands:
-        # shared lib on linux
-        - test -f $PREFIX/lib/libFortranRuntime.so              # [linux]
-        # static lib on win (fails to export symbols for shared build)
-        - if not exist %LIBRARY_LIB%\FortranRuntime.lib exit 1  # [win]
-
   - name: flang
     script: install_flang.sh  # [unix]
     script: install_flang.bat  # [win]
-    run_exports:
-      strong:
-        - libflang >={{ version }}
     requirements:
       build:
         - cmake
@@ -74,18 +49,16 @@ outputs:
         - llvmdev =={{ version }}
         - mlir =={{ version }}
         # for required run-exports
-        - libmlir =={{ version }}
         - llvm =={{ version }}
         - libclang-cpp =={{ version }}
         # ninja really wants to find z.lib on win
         - zlib  # [win]
         - zstd  # [win]
-        - {{ pin_subpackage('libflang', exact=True) }}
       run:
         - sysroot_{{ target_platform }} >={{ c_stdlib_version }}    # [linux]
         - clang =={{ version }}
         - compiler-rt =={{ version }}   # [win]
-        - {{ pin_subpackage('libflang', exact=True) }}
+        - libmlir22 =={{ version }}      # [linux]
     test:
       commands:
         - test -f $PREFIX/bin/flang                     # [linux]
@@ -99,7 +72,7 @@ about:
   doc_url: https://flang.llvm.org/docs/
   summary: Flang is a Fortran compiler targeting LLVM.
   description: |
-    Flang is a Fortran compiler targeting LLVM. It is designed to integrate 
+    Flang is a Fortran compiler targeting LLVM. It is designed to integrate
     with the LLVM ecosystem and provides a modern Fortran compiler implementation.
   dev_url: https://github.com/llvm/llvm-project
 
