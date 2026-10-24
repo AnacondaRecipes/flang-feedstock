@@ -63,6 +63,8 @@ outputs:
       commands:
         - test -f $PREFIX/bin/flang                     # [linux]
         - if not exist %LIBRARY_BIN%\flang.exe exit 1   # [win]
+        # loads the shared LLVM/MLIR/clang libraries; needs neither flang-rt nor the intrinsic modules
+        - flang --version
 
 about:
   home: https://flang.llvm.org
