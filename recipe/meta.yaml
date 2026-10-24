@@ -65,10 +65,16 @@ outputs:
         - if not exist %LIBRARY_BIN%\flang.exe exit 1   # [win]
         # loads the shared LLVM/MLIR/clang libraries; needs neither flang-rt nor the intrinsic modules
         - flang --version
+        # compile to an object only: no runtime link and no intrinsic-module import (both come from flang-rt)
+        - printf 'subroutine s\n  real x\n  x = 2.0\nend subroutine s\n' > smoke.f90   # [unix]
+        - (echo subroutine s& echo real x& echo x = 2.0& echo end subroutine s) > smoke.f90   # [win]
+        - flang -c smoke.f90 -o smoke.o
+        - test -f smoke.o                     # [unix]
+        - if not exist smoke.o exit 1         # [win]
 
 about:
   home: https://flang.llvm.org
-  license: Apache-2.0
+  license: Apache-2.0 WITH LLVM-exception
   license_family: Apache
   license_file: flang/LICENSE.TXT
   doc_url: https://flang.llvm.org/docs/
@@ -80,6 +86,7 @@ about:
 
 extra:
   skip-lints:
+    # flang's host lists `llvm` for its run_exports, which the linter mistakes for a compiler requirement
     - should_use_compilers
   recipe-maintainers:
     - isuruf
