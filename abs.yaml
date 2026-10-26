@@ -1,2 +1,2 @@
-# Extend timeout to 4 hours for Windows builds
-task_timeout: 14400
+# 6 hours: the win-arm64 build of 22.1.2 took 3.6h, close to the previous 4h cap
+task_timeout: 21600
