@@ -1,7 +1,2 @@
 # 6 hours: the win-arm64 build of 22.1.2 took 3.6h, close to the previous 4h cap
 task_timeout: 21600
-
-# PR CI only - mlir/libmlir23 23.1.4 from AnacondaRecipes/mlir-feedstock#16 (graph of head 6b0d66e);
-# REMOVE before merge (flang hosts mlir 23.1.4 and runs on libmlir23, not on pkgs/main yet)
-channels:
-  - https://package-build.internal.anaconda.com/pkg-orchestrator/v1/channels/graphs/78f3453a-6303-40a3-a748-d7bf72aeadc8
