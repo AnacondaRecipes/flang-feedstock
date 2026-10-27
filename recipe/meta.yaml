@@ -9,7 +9,7 @@ source:
   sha256: 7ba3f2a8d8fda88be18a31d011e8195d3b7f87f9fa92b20c94cba2d7f65b0e3f
 
 build:
-  number: 0
+  number: 1
   # TODO: Skipping osx until https://github.com/llvm/llvm-project/issues/154960 is resolved.
   skip: true  # [osx]
 
@@ -19,11 +19,11 @@ requirements:
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    # some bug with misinterpreting `...\tools` as a tab (`\t`)
-    - ninja <1.13
+    - ninja-base
     - mlir =={{ version }}     # [build_platform != target_platform]
     # for showing CPU info of CI agent
-    - numpy *
+    - numpy *  # [target_platform != "win-arm64"]
+    - python   # [target_platform == "win-arm64"]
   host:
     - clangdev =={{ version }}
     - compiler-rt =={{ version }}
@@ -39,7 +39,7 @@ outputs:
     requirements:
       build:
         - cmake
-        - ninja <1.13
+        - ninja-base
         # for strong run-exports
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
@@ -64,6 +64,9 @@ outputs:
       commands:
         - test -f $PREFIX/bin/flang                     # [linux]
         - if not exist %LIBRARY_BIN%\flang.exe exit 1   # [win]
+        - flang --version | findstr "{{ version }}"  # [win]
+        - flang --version | findstr "aarch64-pc-windows-msvc"  # [win and arm64]
+        - flang --version | findstr "x86_64-pc-windows-msvc"  # [win64]
 
 about:
   home: https://flang.llvm.org
